@@ -24,11 +24,6 @@ class MyTest(unittest.TestCase):
         new_angle = self.test_instance.correct_angle()
         self.assertEqual(new_angle, self.test_instance.angle % self.test_instance.max_angle)
 
-    def test_correct_angle_less(self):
-        self.test_instance.angle = 550
-        new_angle = self.test_instance.correct_angle()
-        self.assertLess(new_angle, 360)
-
     def test_draw_angle_less(self):
         new_angle = self.test_instance.draw_angle()
         self.assertLess(new_angle, 360)
@@ -42,19 +37,34 @@ class MyTest(unittest.TestCase):
         self.test_instance2 = FlightSimulator('150')
         new_angle = self.test_instance2.correct_angle()
         self.assertEqual(new_angle, self.test_instance2.angle % self.test_instance2.max_angle)
-    #
-    # def test_correct_angle_another_test_instance_Equal(self):
-    #     self.assertEqual(new_angle, FlightSimulator('alaa'))
-    #
+
+    def test_correct_angle_another_raise_error(self):
+        with self.assertRaises(ValueError):
+            FlightSimulator('alaa')
+
     def test_draw_angle_false(self):
         old_angle = self.test_instance.angle
         new_angle = self.test_instance.draw_angle()
         self.assertNotEqual(new_angle, old_angle)
 
+    def test_correct_angle_less(self):
+        self.test_instance.angle = 550
+        new_angle = self.test_instance.correct_angle()
+        self.assertLess(new_angle, 360)
+
+    def test_draw_angle_raises(self):
+        with self.assertRaises(TypeError):
+            self.test_instance.draw_angle(45)
+
     def test_generator(self):
         old_angle = self.test_instance.angle
         new_angle = Generator(self.test_instance).next()
         self.assertNotEqual(new_angle, old_angle)
+##Kod do poprawiony dlatego przechodzi
+    def test_generator_wrong_object(self):
+        with self.assertRaises(ValueError):
+            Generator(70)
+
 
 if __name__ == '__main__':
     unittest.main()

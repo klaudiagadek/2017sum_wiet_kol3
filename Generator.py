@@ -6,7 +6,10 @@ from time import sleep
 
 class Generator(object):
     def __init__(self, flight_simulator):
-        self.my_object = flight_simulator
+        if isinstance(flight_simulator, FlightSimulator):
+            self.my_object = flight_simulator
+        else:
+            raise ValueError
 
     def __next__(self):
         return self.next()
